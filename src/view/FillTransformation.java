@@ -27,6 +27,7 @@ import javax.swing.JSlider;
 
 import controller.FillColorsMediator;
 import controller.FillTypeRadioButtonMediator;
+import controller.ImageColorFiller;
 import controller.ImageLineFiller;
 import controller.SliderMediator;
 
@@ -34,8 +35,8 @@ import controller.SliderMediator;
  * 
  * <p>Title: FillPanel</p>
  * <p>Description: </p>
- * <p>Copyright: Copyright (c) 2004 Sébastien Bois, Eric Paquette</p>
- * <p>Company: (ÉTS) - École de Technologie Supérieure</p>
+ * <p>Copyright: Copyright (c) 2004 Sebastien Bois, Eric Paquette</p>
+ * <p>Company: (ETS)  Ecole de Technologie Superieure</p>
  * @author unascribed
  * @version $Revision: 1.3 $
  */
@@ -61,7 +62,7 @@ public class FillTransformation extends JPanel {
 	private JButton bFillColor;
 	private JButton bBoundaryColor;
 
-	public FillTransformation(ImageLineFiller filler){
+	public FillTransformation(ImageColorFiller imageColorFiller){
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 			
 		JPanel slidersPanel = new JPanel();
@@ -122,7 +123,7 @@ public class FillTransformation extends JPanel {
 		new SliderMediator(hThreshold, hThresholdValue, 
 						   sThreshold, sThresholdValue, 
 						   vThreshold, vThresholdValue,
-						   filler);
+						   imageColorFiller);
 		
 		JRadioButton rbBoundaryFill	= new JRadioButton("Boundary fill");
 		fillcolorRadioButtonPanel.add(rbBoundaryFill);
@@ -130,12 +131,12 @@ public class FillTransformation extends JPanel {
 		JRadioButton rbFloodFill = new JRadioButton("Flood fill");
 		fillcolorRadioButtonPanel.add(rbFloodFill);
 		
-		FillTypeRadioButtonMediator rbMediator	= new FillTypeRadioButtonMediator(rbBoundaryFill, rbFloodFill, filler);
+		FillTypeRadioButtonMediator rbMediator	= new FillTypeRadioButtonMediator(rbBoundaryFill, rbFloodFill, imageColorFiller);
 		
 		bFillColor    = new JButton();
 		bBoundaryColor = new JButton();
 		
-		FillColorsMediator fillColorsMediator = new FillColorsMediator(filler, bFillColor, bBoundaryColor);
+		FillColorsMediator fillColorsMediator = new FillColorsMediator(imageColorFiller, bFillColor, bBoundaryColor);
 		
 		fillcolorButtonPanel.add(bFillColor);
 		fillcolorButtonPanel.add(new JLabel(" Fill color "));
@@ -146,7 +147,7 @@ public class FillTransformation extends JPanel {
 		new SliderMediator(hThreshold, hThresholdValue, 
 						   sThreshold, sThresholdValue, 
 						   vThreshold, vThresholdValue,
-						   filler);
+						   imageColorFiller);
 		
 		add(slidersPanel);
 		add(fillcolorRadioButtonPanel);

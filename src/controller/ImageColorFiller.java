@@ -25,10 +25,10 @@ import java.util.Stack;
 /**
  * <p>Title: ImageLineFiller</p>
  * <p>Description: Image transformer that inverts the row color</p>
- * <p>Copyright: Copyright (c) 2003 Colin Barré-Brisebois, Éric Paquette</p>
- * <p>Company: ETS - École de Technologie Supérieure</p>
+ * <p>Copyright: Copyright (c) 2003 Colin Barre Brisebois, Eric Paquette</p>
+ * <p>Company: ETS  Ecole de Technologie Superieure</p>
  * @author unascribed
- * @version $Revision: 1.12 $
+ * @version Revision: 1.12 
  */
 public class ImageColorFiller extends AbstractTransformer {
 	private ImageX currentImage;
@@ -72,7 +72,11 @@ public class ImageColorFiller extends AbstractTransformer {
 				if (0 <= ptTransformed.x && ptTransformed.x < currentImage.getImageWidth() &&
 				    0 <= ptTransformed.y && ptTransformed.y < currentImage.getImageHeight()) {
 					currentImage.beginPixelUpdate();
-					horizontalLineFill(ptTransformed);
+					
+					if (floodFill)
+						floodFill(ptTransformed.x, ptTransformed.y, currentImage.getPixel(ptTransformed.x, ptTransformed.y));
+					else
+						boundaryFill(ptTransformed.x, ptTransformed.y, currentImage.getPixel(ptTransformed.x, ptTransformed.y));
 					currentImage.endPixelUpdate();											 	
 					return true;
 				}
@@ -84,9 +88,32 @@ public class ImageColorFiller extends AbstractTransformer {
 	/**
 	 * Horizontal line fill with specified color
 	 */
-	private void horizontalLineFill(Point ptClicked) {
+	private void floodFill(int x, int y, Pixel interiorColor) {	
+		System.out.println("dans floodfill");
+		if (0 <= x && 
+			x < currentImage.getImageWidth() &&
+			0 <= y &&
+			y < currentImage.getImageHeight() &&
+			!currentImage.getPixel(x, y).equals(fillColor) &&
+			currentImage.getPixel(x, y).equals(interiorColor)
+			) {
+				
+		currentImage.setPixel(x, y, fillColor);
+		
+		// Next points to fill.
+		floodFill(x+1, y, interiorColor);
+		floodFill(x-1, y, interiorColor);
+		floodFill(x, y+1, interiorColor);
+		floodFill(x, y-1, interiorColor);			
+		}
+	}
+
+	/**
+	 * Horizontal line fill with specified color
+	 */
+	private void boundaryFill(int x, int y, Pixel interiorColor) {
 		Stack stack = new Stack();
-		stack.push(ptClicked);
+		stack.push(x);
 		while (!stack.empty()) {
 			Point current = (Point)stack.pop();
 			if (0 <= current.x && current.x < currentImage.getImageWidth() &&

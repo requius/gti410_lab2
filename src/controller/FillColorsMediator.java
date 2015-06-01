@@ -31,7 +31,7 @@ import model.Pixel;
  * <p>Title: FillColorsMediator</p>
  * <p>Description: </p>
  * <p>Copyright: Copyright (c) 2004 Eric Paquette </p>
- * <p>Company: (ÉTS) - École de Technologie Supérieure</p>
+ * <p>Company: (ETS) - Ecole de Technologie Superieure</p>
  * <p>Created on 2004-01-27</p>
  * @author unascribed
  * @version $Revision: 1.4 $
@@ -42,15 +42,15 @@ public class FillColorsMediator {
 	private int size = 40;
 	private BufferedImage imgFill;
 	private BufferedImage imgBorder;
-	private ImageLineFiller filler;
+	private ImageColorFiller filler;
 	private JButton fillColorButton;
 	private JButton borderColorButton;
 	
-	public FillColorsMediator(ImageLineFiller filler, JButton fillColorButton, JButton borderColorButton) {
-		this.filler = filler;
+	public FillColorsMediator(ImageColorFiller imageColorFiller, JButton fillColorButton, JButton borderColorButton) {
+		this.filler = imageColorFiller;
 		
-		fill = filler.getFillColor();
-		border = filler.getBorderColor();
+		fill = imageColorFiller.getFillColor();
+		border = imageColorFiller.getBorderColor();
 		
 		this.fillColorButton = fillColorButton;
 		imgFill = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);

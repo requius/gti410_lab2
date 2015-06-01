@@ -23,8 +23,8 @@ import javax.swing.event.ChangeListener;
 /**
  * <p>Title: SliderMediator</p>
  * <p>Description: </p>
- * <p>Copyright: Copyright (c) 2003 Sébastien Bois, Eric Paquette</p>
- * <p>Company: (ÉTS) - École de Technologie Supérieure</p>
+ * <p>Copyright: Copyright (c) 2003 Sebastien Bois, Eric Paquette</p>
+ * <p>Company: (ETS) - Ecole de Technologie Superieure</p>
  * @author unascribed
  * @version $Revision: 1.3 $
  */
@@ -37,12 +37,12 @@ public class SliderMediator implements ChangeListener
 	private JSlider sSlider;
 	private JLabel vLabel;
 	private JSlider vSlider;
-	private ImageLineFiller filler;
+	private ImageColorFiller filler;
 	
 	public SliderMediator(JSlider hSlider, JLabel hLabel,
 						  JSlider sSlider, JLabel sLabel,
 						  JSlider vSlider, JLabel vLabel,
-						  ImageLineFiller filler) 
+						  ImageColorFiller imageColorFiller) 
 	{
 		this.hSlider = hSlider;
 		this.hLabel = hLabel;
@@ -50,13 +50,13 @@ public class SliderMediator implements ChangeListener
 		this.sLabel = sLabel;
 		this.vSlider = vSlider;
 		this.vLabel = vLabel;
-		this.filler = filler;
+		this.filler = imageColorFiller;
 		
-		hSlider.setValue(filler.getHueThreshold());
+		hSlider.setValue(imageColorFiller.getHueThreshold());
 		hLabel.setText(Integer.toString(hSlider.getValue()));
-		sSlider.setValue(filler.getSaturationThreshold());
+		sSlider.setValue(imageColorFiller.getSaturationThreshold());
 		sLabel.setText(Integer.toString(sSlider.getValue()));
-		vSlider.setValue(filler.getValueThreshold());
+		vSlider.setValue(imageColorFiller.getValueThreshold());
 		vLabel.setText(Integer.toString(vSlider.getValue()));
 		
 		hSlider.addChangeListener(this);

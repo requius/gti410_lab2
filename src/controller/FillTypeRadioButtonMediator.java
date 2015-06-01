@@ -24,8 +24,8 @@ import javax.swing.JRadioButton;
 /**
  * <p>Title: RadioButtonsMediator</p>
  * <p>Description: </p>
- * <p>Copyright: Copyright (c) 2003 Sébastien Bois, Eric Paquette</p>
- * <p>Company: (ÉTS) - École de Technologie Supérieure</p>
+ * <p>Copyright: Copyright (c) 2003 Sebastien Bois, Eric Paquette</p>
+ * <p>Company: (ETS) - Ecole de Technologie Superieure</p>
  * @author unascribed
  * @version $Revision: 1.1 $
  */
@@ -46,18 +46,18 @@ public class FillTypeRadioButtonMediator implements ActionListener{
 	/**
 	 * 
 	 */
-	private ImageLineFiller filler;
+	private ImageColorFiller filler;
 	
 	/**
 	 * 
 	 * @param rbBoundaryFill
 	 * @param rbFloodFill
-	 * @param filler
+	 * @param imageColorFiller
 	 */
-	public FillTypeRadioButtonMediator(JRadioButton rbBoundaryFill, JRadioButton rbFloodFill, ImageLineFiller filler) {
+	public FillTypeRadioButtonMediator(JRadioButton rbBoundaryFill, JRadioButton rbFloodFill, ImageColorFiller imageColorFiller) {
 		this.rbBoundaryFill = rbBoundaryFill;
 		this.rbFloodFill 	= rbFloodFill;
-		this.filler 		= filler;
+		this.filler 		= imageColorFiller;
 		
 		fillRadioButtonGroup = new ButtonGroup();
 		fillRadioButtonGroup.add(rbBoundaryFill);
@@ -66,7 +66,7 @@ public class FillTypeRadioButtonMediator implements ActionListener{
 		rbBoundaryFill.addActionListener(this);
 		rbFloodFill.addActionListener(this);
 	
-		if (filler.isFloodFill()) {
+		if (imageColorFiller.isFloodFill()) {
 			rbFloodFill.setSelected(true);
 		} else {
 			rbBoundaryFill.setSelected(true);
