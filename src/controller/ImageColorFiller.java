@@ -76,7 +76,7 @@ public class ImageColorFiller extends AbstractTransformer {
 					if (floodFill)
 						floodFill(ptTransformed.x, ptTransformed.y, currentImage.getPixel(ptTransformed.x, ptTransformed.y));
 					else
-						boundaryFill(ptTransformed.x, ptTransformed.y, currentImage.getPixel(ptTransformed.x, ptTransformed.y));
+						boundaryFill(ptTransformed.x, ptTransformed.y);
 					currentImage.endPixelUpdate();											 	
 					return true;
 				}
@@ -89,7 +89,6 @@ public class ImageColorFiller extends AbstractTransformer {
 	 * Horizontal line fill with specified color
 	 */
 	private void floodFill(int x, int y, Pixel interiorColor) {	
-		System.out.println("dans floodfill");
 		if (0 <= x && 
 			x < currentImage.getImageWidth() &&
 			0 <= y &&
@@ -100,7 +99,6 @@ public class ImageColorFiller extends AbstractTransformer {
 				
 		currentImage.setPixel(x, y, fillColor);
 		
-		// Next points to fill.
 		floodFill(x+1, y, interiorColor);
 		floodFill(x-1, y, interiorColor);
 		floodFill(x, y+1, interiorColor);
@@ -111,29 +109,22 @@ public class ImageColorFiller extends AbstractTransformer {
 	/**
 	 * Horizontal line fill with specified color
 	 */
-	private void boundaryFill(int x, int y, Pixel interiorColor) {
-		Stack stack = new Stack();
-		stack.push(x);
-		while (!stack.empty()) {
-			Point current = (Point)stack.pop();
-			if (0 <= current.x && current.x < currentImage.getImageWidth() &&
-				!currentImage.getPixel(current.x, current.y).equals(fillColor)) {
-				currentImage.setPixel(current.x, current.y, fillColor);
-				
-				// Next points to fill.
-				Point nextLeft = new Point(current.x-1, current.y);
-				Point nextRight = new Point(current.x+1, current.y);
-				stack.push(nextLeft);
-				stack.push(nextRight);
-			}
-		}
-		// TODO EP In this method, we are creating many new Point instances. 
-		//      We could try to reuse as many as possible to be more efficient.
-		// TODO EP In this method, we could be creating many Point instances. 
-		//      At some point we can run out of memory. We could create a new point
-		//      class that uses shorts to cut the memory use.
-		// TODO EP In this method, we could test if a pixel needs to be filled before
-		//      adding it to the stack (to reduce memory needs and increase efficiency).
+	private void boundaryFill(int x, int y) {
+		if (0 <= x && 
+			x < currentImage.getImageWidth() &&
+			0 <= y &&
+			y < currentImage.getImageHeight() &&
+			!currentImage.getPixel(x, y).equals(fillColor) &&
+			!currentImage.getPixel(x, y).equals(borderColor)
+			) {
+					
+		currentImage.setPixel(x, y, fillColor);
+			
+		boundaryFill(x+1, y);
+		boundaryFill(x-1, y);
+		boundaryFill(x, y+1);
+		boundaryFill(x, y-1);			
+		}	
 	}
 	
 	/**
