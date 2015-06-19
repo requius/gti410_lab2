@@ -24,7 +24,7 @@ import model.*;
  * @author unascribed
  * @version $Revision: 1.11 $
  */
-public class MeanFilter3x3 extends Filter {	
+public class CustomFilter3x3 extends Filter {	
 	private double filterMatrix[][] = null;
 	
 	/**
@@ -32,7 +32,7 @@ public class MeanFilter3x3 extends Filter {
 	 * @param paddingStrategy PaddingStrategy used 
 	 * @param conversionStrategy ImageConversionStrategy used
 	 */
-	public MeanFilter3x3(PaddingStrategy paddingStrategy, 
+	public CustomFilter3x3(PaddingStrategy paddingStrategy, 
 						 ImageConversionStrategy conversionStrategy) {
 		super(paddingStrategy, conversionStrategy);	
 		filterMatrix = new double[3][3];
@@ -82,10 +82,6 @@ public class MeanFilter3x3 extends Filter {
 		PixelDouble newPixel = null;
 		double result = 0; 
 	
-		System.out.println(filterMatrix[0][0] + "/" + filterMatrix[1][0] + "/" + filterMatrix[2][0]);
-		System.out.println(filterMatrix[0][1] + "/" + filterMatrix[1][1] + "/" + filterMatrix[2][1]);
-		System.out.println(filterMatrix[0][2] + "/" + filterMatrix[1][2] + "/" + filterMatrix[2][2]);
-		
 		for (int x = 0; x < imageWidth; x++) {
 			for (int y = 0; y < imageHeight; y++) {
 				newPixel = new PixelDouble();
