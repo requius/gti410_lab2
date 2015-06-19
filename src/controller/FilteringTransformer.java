@@ -31,7 +31,7 @@ import model.Shape;
  * @version $Revision: 1.6 $
  */
 public class FilteringTransformer extends AbstractTransformer{
-	Filter filter = new MeanFilter3x3(new PaddingZeroStrategy(), new ImageClampStrategy());
+	CustomFilter3x3 filter = new CustomFilter3x3(new PaddingZeroStrategy(), new ImageClampStrategy());
 	
 	/**
 	 * @param _coordinates
@@ -41,6 +41,7 @@ public class FilteringTransformer extends AbstractTransformer{
 		System.out.println("[" + (_coordinates.getColumn() - 1) + "]["
                                    + (_coordinates.getRow() - 1) + "] = " 
                                    + _value);
+		filter.updateKernel(_coordinates, _value);
 	}
 		
 	/**
@@ -79,6 +80,9 @@ public class FilteringTransformer extends AbstractTransformer{
 	 */
 	public void setBorder(String string) {
 		System.out.println(string);
+		if (string.equals("Mirror")){
+			System.out.println("true");
+		}
 	}
 
 	/**
@@ -86,5 +90,6 @@ public class FilteringTransformer extends AbstractTransformer{
 	 */
 	public void setClamp(String string) {
 		System.out.println(string);
+		//if (string.equals())
 	}
 }

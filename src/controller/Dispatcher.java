@@ -46,6 +46,7 @@ public class Dispatcher implements MouseListener,MouseMotionListener,KeyListener
 			if (newTransformer != null) {
 				currentTransformer = newTransformer; 
 				currentTransformer.mouseClicked(e);
+				System.out.println("yep");
 			}
 		}
 	}

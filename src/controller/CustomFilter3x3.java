@@ -42,6 +42,10 @@ public class CustomFilter3x3 extends Filter {
 		filterMatrix[0][2] = filterMatrix[1][2] = filterMatrix[2][2] = (1.0/9.0);
 	}
 	
+	public void updateKernel(Coordinates _coordinates, float _value){
+		this.filterMatrix[_coordinates.getColumn() - 1][_coordinates.getRow() - 1] = _value; 
+	}
+	
 	/**
 	 * Filters an ImageX and returns a ImageDouble.
 	 */
@@ -81,7 +85,7 @@ public class CustomFilter3x3 extends Filter {
 		ImageDouble newImage = new ImageDouble(imageWidth, imageHeight);
 		PixelDouble newPixel = null;
 		double result = 0; 
-	
+		
 		for (int x = 0; x < imageWidth; x++) {
 			for (int y = 0; y < imageHeight; y++) {
 				newPixel = new PixelDouble();
