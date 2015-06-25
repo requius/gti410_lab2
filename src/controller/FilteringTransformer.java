@@ -25,8 +25,8 @@ import model.Shape;
  * 
  * <p>Title: FilteringTransformer</p>
  * <p>Description: ... (AbstractTransformer)</p>
- * <p>Copyright: Copyright (c) 2004 Sébastien Bois, Eric Paquette</p>
- * <p>Company: (ÉTS) - École de Technologie Supérieure</p>
+ * <p>Copyright: Copyright (c) 2004 Sebastien Bois, Eric Paquette</p>
+ * <p>Company: (ETS) - Ecole de Technologie Sup/rieure</p>
  * @author unascribed
  * @version $Revision: 1.6 $
  */
@@ -81,8 +81,11 @@ public class FilteringTransformer extends AbstractTransformer{
 	public void setBorder(String string) {
 		System.out.println(string);
 		if (string.equals("Mirror")){
+			PaddingMirrorStrategy mirrorStrategy = new PaddingMirrorStrategy();
+			filter.setPaddingStrategy(mirrorStrategy);
 			System.out.println("true");
 		}
+
 	}
 
 	/**
