@@ -111,8 +111,10 @@ public class FilteringTransformer extends AbstractTransformer{
 				filter.setImageConversionStrategy(new ImageAbsNormalizeTo255Strategy());
 				break;
 			case "Abs and normalize 0 to 255":
+				filter.setImageConversionStrategy(new ImageAbsNormalize0To255Strategy());
 				break;
 			case "Normalize 0 to 255":
+				filter.setImageConversionStrategy(new ImageNormalize0To255Strategy());
 				break;
 			default:
 				break;

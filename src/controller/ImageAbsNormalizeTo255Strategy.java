@@ -26,19 +26,6 @@ import model.*;
  */
 public class ImageAbsNormalizeTo255Strategy extends ImageConversionStrategy {
 	
-	private double minR = 0;
-	private double minG = 0;
-	private double minB = 0;
-	private double minA = 0;
-	
-	private double maxR = 0;
-	private double maxG = 0;
-	private double maxB = 0;
-	private double maxA = 0;
-	
-	private double newMin;
-	private double newMax = 255;
-	
  	/**
 	 * Converts an ImageDouble to an ImageX using a clamping strategy (0-255).
 	 */
@@ -48,60 +35,34 @@ public class ImageAbsNormalizeTo255Strategy extends ImageConversionStrategy {
 		ImageX newImage = new ImageX(0, 0, imageWidth, imageHeight);
 		PixelDouble curPixelDouble = null;
 
-		findMinMaxValue(image);
+		double oldR = 0.0;
+		double oldG = 0.0;
+		double oldB = 0.0;
+		double oldA = 0.0;
 		
 		newImage.beginPixelUpdate();
 		for (int x = 0; x < imageWidth; x++) {
 			for (int y = 0; y < imageHeight; y++) {
 				curPixelDouble = image.getPixel(x,y);
 				
-				newImage.setPixel(x, y, new Pixel((int)(normalizeTo255(curPixelDouble.getRed(), minR, maxR)),
-												  (int)(normalizeTo255(curPixelDouble.getGreen(), minG, maxG)),
-												  (int)(normalizeTo255(curPixelDouble.getBlue(), minB, maxB)),
-												  (int)(normalizeTo255(curPixelDouble.getAlpha(), minA, maxA))));
+				oldR = curPixelDouble.getRed();
+				oldG = curPixelDouble.getGreen();
+				oldB = curPixelDouble.getBlue();
+				oldA = curPixelDouble.getAlpha();				
+				
+				newImage.setPixel(x, y, new Pixel((int)(normalizeTo255(oldR, oldR, oldG, oldB)),
+												  (int)(normalizeTo255(oldG, oldR, oldG, oldB)),
+												  (int)(normalizeTo255(oldB, oldR, oldG, oldB)),
+												  (int)(normalizeTo255(oldA, oldA, oldA, oldA))));
 			}
 		}
 		newImage.endPixelUpdate();
 		return newImage;
 	}
 	
-	private void findMinMaxValue(ImageDouble image){
-		int imageWidth = image.getImageWidth();
-		int imageHeight = image.getImageHeight();
-		PixelDouble curPixelDouble = null;
-		
-		for (int x = 0; x < imageWidth; x++) {
-			for (int y = 0; y < imageHeight; y++) {
-				curPixelDouble = image.getPixel(x,y);
-				
-				if (Math.abs(curPixelDouble.getRed()) < minR){
-					minR = Math.abs(curPixelDouble.getRed());
-				} else if (Math.abs(curPixelDouble.getGreen()) < minG){
-					minG = Math.abs(curPixelDouble.getGreen());
-				} else if (Math.abs(curPixelDouble.getBlue()) < minB){
-					minB = Math.abs(curPixelDouble.getBlue());
-				} else if (Math.abs(curPixelDouble.getAlpha()) < minA){
-					minA = Math.abs(curPixelDouble.getAlpha());
-				}
-				
-				if (Math.abs(curPixelDouble.getRed()) > maxR){
-					maxR = Math.abs(curPixelDouble.getRed());
-				} else if (Math.abs(curPixelDouble.getGreen()) > maxG){
-					maxG = Math.abs(curPixelDouble.getGreen());
-				} else if (Math.abs(curPixelDouble.getBlue()) > maxB){
-					maxB = Math.abs(curPixelDouble.getBlue());
-				} else if (Math.abs(curPixelDouble.getAlpha()) > maxA){
-					maxA = Math.abs(curPixelDouble.getAlpha());
-				}
-			}
-		}
-	}
-	
-	private double normalizeTo255(double value, double min, double max) {
-		double newRange = newMax - newMin;
-		
-		double scale = (value - min) / (max - min);
-		double newValue = (newRange * scale) + newMin; 
+	private double normalizeTo255(double value, double oldR, double oldG, double oldB) {
+
+		double newValue = Math.abs(value) / (Math.abs(oldR) + Math.abs(oldG) + Math.abs(oldB)); 
 				
 		return newValue;
 	}
