@@ -49,8 +49,11 @@ public class ImageAbsNormalizeTo255Strategy extends ImageConversionStrategy {
 				oldG = curPixelDouble.getGreen();
 				oldB = curPixelDouble.getBlue();
 				oldA = curPixelDouble.getAlpha();				
-				
-				newImage.setPixel(x, y, new Pixel((int)(normalizeTo255(oldR, oldR, oldG, oldB)),
+				/*newImage.setPixel(x, y, new Pixel((int)(normalizeTo255(oldR, oldR, oldG, oldB)),
+						  (int)(normalizeTo255(oldG, oldR, oldG, oldB)),
+						  (int)(normalizeTo255(oldB, oldR, oldG, oldB)),
+						  (int)(normalizeTo255(oldA, oldA, oldA, oldA))));
+				*/newImage.setPixel(x, y, new Pixel((int)(normalizeTo255(oldR, oldR, oldG, oldB)),
 												  (int)(normalizeTo255(oldG, oldR, oldG, oldB)),
 												  (int)(normalizeTo255(oldB, oldR, oldG, oldB)),
 												  (int)(normalizeTo255(oldA, oldA, oldA, oldA))));
@@ -64,6 +67,6 @@ public class ImageAbsNormalizeTo255Strategy extends ImageConversionStrategy {
 
 		double newValue = Math.abs(value) / (Math.abs(oldR) + Math.abs(oldG) + Math.abs(oldB)); 
 				
-		return newValue;
+		return newValue * 255.0;
 	}
 }
