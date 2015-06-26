@@ -80,12 +80,22 @@ public class FilteringTransformer extends AbstractTransformer{
 	 */
 	public void setBorder(String string) {
 		System.out.println(string);
-		if (string.equals("Mirror")){
-			PaddingMirrorStrategy mirrorStrategy = new PaddingMirrorStrategy();
-			filter.setPaddingStrategy(mirrorStrategy);
-			System.out.println("true");
+		switch (string){
+			case "0":
+				filter.setPaddingStrategy(new PaddingZeroStrategy());	
+				break;
+			case "None":
+				break;
+			case "Copy":
+				break;
+			case "Mirror":
+				filter.setPaddingStrategy(new PaddingMirrorStrategy());
+				break;
+			case "Circular":
+				break;
+			default:
+				break;
 		}
-
 	}
 
 	/**
@@ -93,6 +103,19 @@ public class FilteringTransformer extends AbstractTransformer{
 	 */
 	public void setClamp(String string) {
 		System.out.println(string);
-		//if (string.equals())
+		switch (string){
+			case "Clamp 0...255":
+				filter.setImageConversionStrategy(new ImageClampStrategy());	
+				break;
+			case "Abs and normalize to 255":
+				filter.setImageConversionStrategy(new ImageAbsNormalizeTo255Strategy());
+				break;
+			case "Abs and normalize 0 to 255":
+				break;
+			case "Normalize 0 to 255":
+				break;
+			default:
+				break;
+		}
 	}
 }
