@@ -42,6 +42,9 @@ public class CustomFilter3x3 extends Filter {
 		filterMatrix[0][2] = filterMatrix[1][2] = filterMatrix[2][2] = (1.0/9.0);
 	}
 	
+	/**
+	 * Update Kernel informations to filterMatrix
+	 */
 	public void updateKernel(Coordinates _coordinates, float _value){
 		this.filterMatrix[_coordinates.getColumn() - 1][_coordinates.getRow() - 1] = _value; 
 	}

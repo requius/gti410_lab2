@@ -60,6 +60,11 @@ public class ImageAbsNormalizeTo255Strategy extends ImageConversionStrategy {
 		return newImage;
 	}
 	
+	/**
+	 * Normaliser les valeurs a 255
+	 */
+	// Cette methode est inspire a partir du site web suivant :
+	// http://www.roborealm.com/help/Normalize%20Color.php
 	private double normalizeTo255(double value, double oldR, double oldG, double oldB) {
 
 		double newValue = Math.abs(value) / (Math.abs(oldR) + Math.abs(oldG) + Math.abs(oldB)); 

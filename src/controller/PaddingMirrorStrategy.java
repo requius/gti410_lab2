@@ -30,7 +30,7 @@ public class PaddingMirrorStrategy extends PaddingStrategy {
 	
 	/**
 	 * Returns and validates the Pixel at the specified coordinate.
-	 * If the Pixel is invalid, a new black (0,0,0,0) Pixel is returned.
+	 * If the Pixel is invalid, the same Pixel is returned.
 	 * @param image source Image
 	 * @param x x coordinate
 	 * @param y y coordinate
@@ -46,17 +46,13 @@ public class PaddingMirrorStrategy extends PaddingStrategy {
 			return image.getPixel(x + 1, y - 1);
 		} else if (x == -1) {
 			return image.getPixel(x + 1, y);
-		} 
-		
-		if (x == imgWidth && y == -1) {
+		} else if (x == imgWidth && y == -1) {
 			return image.getPixel(x - 1, y + 1);
 		} else if (x == imgWidth && y == imgHeight) {
 			return image.getPixel(x - 1, y - 1);
 		} else if (x == imgWidth) {
-				return image.getPixel(x - 1, y);	
-		}
-		
-		if (y == -1) {
+			return image.getPixel(x - 1, y);	
+		} else if (y == -1) {
 			return image.getPixel(x, y + 1);
 		} else if (y == imgHeight) {
 			return image.getPixel(x, y - 1);
@@ -69,7 +65,7 @@ public class PaddingMirrorStrategy extends PaddingStrategy {
 	/**
 	 * Returns and validates the PixelDouble at the specified coordinate.
 	 * Original Pixel is converted to PixelDouble.
-	 * If the Pixel is invalid, a new black (0,0,0,0) PixelDouble is returned.
+	 * If the Pixel is invalid, the same PixelDouble is returned.
 	 * @param image source ImageDouble
 	 * @param x x coordinate
 	 * @param y y coordinate

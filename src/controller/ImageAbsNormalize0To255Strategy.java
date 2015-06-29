@@ -65,6 +65,10 @@ public class ImageAbsNormalize0To255Strategy extends ImageConversionStrategy {
 		return newImage;
 	}
 	
+	/**
+	 * Trouve la valeur minimum et maximum des composante R, G, B et A
+	 * @param image
+	 */
 	private void findMinMaxValue(ImageDouble image){
 		int imageWidth = image.getImageWidth();
 		int imageHeight = image.getImageHeight();
