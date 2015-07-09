@@ -1,1 +1,4 @@
-/controller/
+/.DS_Store
+/controller
+/model
+/view
