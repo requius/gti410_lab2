@@ -14,13 +14,17 @@
 */
 package controller;
 
+import java.awt.geom.AffineTransform;
+import java.util.Iterator;
 import java.util.List;
+
+import model.Shape;
 
 /**
  * <p>Title: ShearXCommand</p>
  * <p>Description: </p>
- * <p>Copyright: Copyright (c) 2004 Jean-François Barras, Éric Paquette</p>
- * <p>Company: (ÉTS) - École de Technologie Supérieure</p>
+ * <p>Copyright: Copyright (c) 2004 Jean-Francois Barras, Eric Paquette</p>
+ * <p>Company: (ETS) - Ecole de Technologie Superieure</p>
  * <p>Created on: 2004-03-19</p>
  * @version $Revision: 1.4 $
  */
@@ -43,8 +47,17 @@ public class ShearXCommand extends AnchoredTransformationCommand {
 
 		System.out.println("command: shearing on x-axis by " + angleDegrees +
 				           " degrees anchored on " + getAnchor());
-		
-		// voluntarily undefined
+		Iterator iter = objects.iterator();
+		Shape shape;
+		while(iter.hasNext()){
+			shape = (Shape)iter.next();
+			mt.addMememto(shape);
+			AffineTransform t = shape.getAffineTransform();
+			t.translate(getAnchorPoint(objects).getX(), getAnchorPoint(objects).getY());
+			t.shear(Math.toRadians(angleDegrees), 0);
+			t.translate(-getAnchorPoint(objects).getX(), -getAnchorPoint(objects).getY());
+			shape.setAffineTransform(t);
+		}
 	}
 
 	/* (non-Javadoc)
