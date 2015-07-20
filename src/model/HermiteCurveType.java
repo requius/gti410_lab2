@@ -66,11 +66,19 @@ public class HermiteCurveType extends CurveType {
 	 */
 	public Point evalCurveAt(List controlPoints, double t) {
 		List tVector = Matrix.buildRowVector4(t*t*t, t*t, t, 1);
-		List gVector = Matrix.buildColumnVector4(((ControlPoint)controlPoints.get(0)).getCenter(), 
-			((ControlPoint)controlPoints.get(1)).getCenter(), 
-			((ControlPoint)controlPoints.get(2)).getCenter(),
-			((ControlPoint)controlPoints.get(3)).getCenter());
+		
+		Point p1 = ((ControlPoint)controlPoints.get(0)).getCenter(); 
+		Point p2 = ((ControlPoint)controlPoints.get(1)).getCenter(); 
+		Point p3 = ((ControlPoint)controlPoints.get(2)).getCenter();
+		Point p4 = ((ControlPoint)controlPoints.get(3)).getCenter();
+		
+		Point r1 = new Point((int)(p2.getX() - p1.getX()), (int)(p2.getY() - p1.getY()));
+		Point r4 = new Point((int)(p4.getX() - p3.getX()), (int)(p4.getY() - p3.getY()));
+		
+		List gVector = Matrix.buildColumnVector4(p1, p4, r1, r4);
+
 		Point p = Matrix.eval(tVector, matrix, gVector);
+
 		return p;
 	}
 
