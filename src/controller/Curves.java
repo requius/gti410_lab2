@@ -123,7 +123,10 @@ public class Curves extends AbstractTransformer implements DocObserver {
 				Shape s = (Shape)selectedObjects.get(0);
 				if (curve.getShapes().contains(s)){
 					int controlPointIndex = curve.getShapes().indexOf(s);
-					System.out.println("Try to apply G1 continuity on control point [" + controlPointIndex + "]");
+					if (curve.getCurveType() == CurvesModel.BEZIER ||
+						curve.getCurveType() == CurvesModel.HERMITE) { 
+						System.out.println("Try to apply G1 continuity on control point [" + controlPointIndex + "]");
+					}
 				}
 			}
 			
@@ -138,7 +141,10 @@ public class Curves extends AbstractTransformer implements DocObserver {
 				Shape s = (Shape)selectedObjects.get(0);
 				if (curve.getShapes().contains(s)){
 					int controlPointIndex = curve.getShapes().indexOf(s);
-					System.out.println("Try to apply C1 continuity on control point [" + controlPointIndex + "]");
+					if (curve.getCurveType() == CurvesModel.BEZIER ||
+						curve.getCurveType() == CurvesModel.HERMITE) { 
+						System.out.println("Try to apply C1 continuity on control point [" + controlPointIndex + "]");
+					}
 				}
 			}
 			
