@@ -102,10 +102,10 @@ public class Curves extends AbstractTransformer implements DocObserver {
 	 * @param string
 	 */
 	public void setCurveType(String string) {
-		if (string == CurvesModel.BEZIER) {
-			curve.setCurveType(new BezierCurveType(CurvesModel.BEZIER));
-		} else if (string == CurvesModel.LINEAR) {
+		if (string == CurvesModel.LINEAR) {
 			curve.setCurveType(new PolylineCurveType(CurvesModel.LINEAR));
+		} else if (string == CurvesModel.BEZIER) {
+			curve.setCurveType(new BezierCurveType(CurvesModel.BEZIER));
 		} else if (string == CurvesModel.HERMITE) {
 			curve.setCurveType(new HermiteCurveType(CurvesModel.HERMITE));
 		} else if (string == CurvesModel.BSPLINE) {
@@ -121,15 +121,39 @@ public class Curves extends AbstractTransformer implements DocObserver {
 			List selectedObjects = doc.getSelectedObjects(); 
 			if (selectedObjects.size() > 0){
 				Shape s = (Shape)selectedObjects.get(0);
-				if (curve.getShapes().contains(s)){
+				if (curve.getShapes().contains(s) && curve.getCurveType() != CurvesModel.LINEAR){
 					int controlPointIndex = curve.getShapes().indexOf(s);
-					if (curve.getCurveType() == CurvesModel.BEZIER ||
-						curve.getCurveType() == CurvesModel.HERMITE) { 
-						System.out.println("Try to apply G1 continuity on control point [" + controlPointIndex + "]");
-					}
+					// System.out.println("Try to apply G1 continuity on control point [" + controlPointIndex + "]");
+						
+					ControlPoint previousCP = (ControlPoint) curve.getShapes().get(controlPointIndex - 1);
+					ControlPoint currentCP = (ControlPoint) s;
+					ControlPoint nextCP = (ControlPoint) curve.getShapes().get(controlPointIndex + 1);
+					
+					double currentNextX = Math.abs((currentCP.getCenter().getX() - nextCP.getCenter().getX()));
+					double currentNextY = Math.abs((currentCP.getCenter().getY() - nextCP.getCenter().getY()));
+					double currentNextDistance = Math.sqrt(Math.pow(currentNextX, 2) + Math.pow(currentNextY, 2));
+					
+					double previousCurrentX = Math.abs((previousCP.getCenter().getX() - currentCP.getCenter().getX()));
+					double previousCurrentY = Math.abs((previousCP.getCenter().getY() - currentCP.getCenter().getY()));
+					double previousCurrentDistance = Math.sqrt(Math.pow(previousCurrentX, 2) + Math.pow(previousCurrentY, 2));
+					
+					/*double slope = (previousCP.getCenter().getX() - currentCP.getCenter().getY()) /
+								   (previousCP.getCenter().getY() - currentCP.getCenter().getY());*/
+					
+					double unitVectorX = previousCurrentX / previousCurrentDistance;
+					double unitVectorY = previousCurrentX / previousCurrentDistance;
+					
+					double directionX = currentNextDistance * unitVectorX;
+					double directionY = currentNextDistance * unitVectorY;
+					
+					double newNextCPX = currentCP.getCenter().getX() + directionX;
+					double newNextCPY = currentCP.getCenter().getY() + directionY;
+					
+					nextCP.getCenter().x = (int) Math.round(newNextCPX);
+					nextCP.getCenter().y = (int) Math.round(newNextCPY);
+					nextCP.notifyObservers();
 				}
 			}
-			
 		}
 	}
 	
@@ -139,15 +163,39 @@ public class Curves extends AbstractTransformer implements DocObserver {
 			List selectedObjects = doc.getSelectedObjects(); 
 			if (selectedObjects.size() > 0){
 				Shape s = (Shape)selectedObjects.get(0);
-				if (curve.getShapes().contains(s)){
+				if (curve.getShapes().contains(s) && curve.getCurveType() != CurvesModel.LINEAR){
 					int controlPointIndex = curve.getShapes().indexOf(s);
-					if (curve.getCurveType() == CurvesModel.BEZIER ||
-						curve.getCurveType() == CurvesModel.HERMITE) { 
-						System.out.println("Try to apply C1 continuity on control point [" + controlPointIndex + "]");
-					}
+					// System.out.println("Try to apply G1 continuity on control point [" + controlPointIndex + "]");
+						
+					ControlPoint previousCP = (ControlPoint) curve.getShapes().get(controlPointIndex - 1);
+					ControlPoint currentCP = (ControlPoint) s;
+					ControlPoint nextCP = (ControlPoint) curve.getShapes().get(controlPointIndex + 1);
+					
+					double currentNextX = Math.abs((previousCP.getCenter().getX() - nextCP.getCenter().getX()));
+					double currentNextY = Math.abs((previousCP.getCenter().getY() - nextCP.getCenter().getY()));
+					double currentNextDistance = Math.sqrt(Math.pow(currentNextX, 2) + Math.pow(currentNextY, 2));
+					
+					double previousCurrentX = Math.abs((previousCP.getCenter().getX() - currentCP.getCenter().getX()));
+					double previousCurrentY = Math.abs((previousCP.getCenter().getY() - currentCP.getCenter().getY()));
+					double previousCurrentDistance = Math.sqrt(Math.pow(previousCurrentX, 2) + Math.pow(previousCurrentY, 2));
+					
+					/*double slope = (previousCP.getCenter().getX() - currentCP.getCenter().getY()) /
+								   (previousCP.getCenter().getY() - currentCP.getCenter().getY());*/
+					
+					double unitVectorX = previousCurrentX / previousCurrentDistance;
+					double unitVectorY = previousCurrentX / previousCurrentDistance;
+					
+					double directionX = currentNextDistance * unitVectorX;
+					double directionY = currentNextDistance * unitVectorY;
+					
+					double newNextCPX = currentCP.getCenter().getX() + directionX;
+					double newNextCPY = currentCP.getCenter().getY() + directionY;
+					
+					nextCP.getCenter().x = (int) Math.round(newNextCPX);
+					nextCP.getCenter().y = (int) Math.round(newNextCPY);
+					nextCP.notifyObservers();
 				}
 			}
-			
 		}
 	}
 
