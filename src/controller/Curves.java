@@ -115,6 +115,9 @@ public class Curves extends AbstractTransformer implements DocObserver {
 		}
 	}
 	
+	/**
+	 * G1 continuity on control point
+	 */
 	public void alignControlPoint() {
 		if (curve != null) {
 			Document doc = Application.getInstance().getActiveDocument();
@@ -152,6 +155,9 @@ public class Curves extends AbstractTransformer implements DocObserver {
 		}
 	}
 	
+	/**
+	 * C1 continuity on selected control point
+	 */
 	public void symetricControlPoint() {
 		if (curve != null) {
 			Document doc = Application.getInstance().getActiveDocument();
@@ -160,7 +166,7 @@ public class Curves extends AbstractTransformer implements DocObserver {
 				Shape s = (Shape)selectedObjects.get(0);
 				if (curve.getShapes().contains(s) && curve.getCurveType() != CurvesModel.LINEAR){
 					int controlPointIndex = curve.getShapes().indexOf(s);
-					//System.out.println("Try to apply G1 continuity on control point [" + controlPointIndex + "]");
+					//System.out.println("Try to apply C1 continuity on control point [" + controlPointIndex + "]");
 						
 					ControlPoint previousCP = (ControlPoint) curve.getShapes().get(controlPointIndex - 1);
 					ControlPoint currentCP = (ControlPoint) s;
